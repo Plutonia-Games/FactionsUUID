@@ -4,7 +4,7 @@
 
 # WARNING
 
-## This branch is for a legacy version of the plugin for MC 1.8.8
+## This branch is for a legacy version of the plugin for MC 1.8.8 for Java 8, supporting latest FactionsUUID updates.
 
 ## It receives less frequent updates, primarily bug fixes.
 
