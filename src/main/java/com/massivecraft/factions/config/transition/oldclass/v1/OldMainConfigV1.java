@@ -161,7 +161,7 @@ public class OldMainConfigV1 {
             @Comment("Commands which will be prevented when in claimed territory of a neutral faction")
             public Set<String> territoryNeutralDenyCommands = new HashSet<>();
             @Comment("Commands which will be prevented when in claimed territory of an enemy faction")
-            public Set<String> territoryEnemyDenyCommands = new HashSet<>() {
+            public Set<String> territoryEnemyDenyCommands = new HashSet<String>() {
                 {
                     this.add("home");
                     this.add("sethome");
@@ -394,7 +394,7 @@ public class OldMainConfigV1 {
     }
 
     @Comment("The command base (by default f, making the command /f)")
-    public List<String> commandBase = new ArrayList<>() {
+    public List<String> commandBase = new ArrayList<String>() {
         {
             this.add("f");
         }

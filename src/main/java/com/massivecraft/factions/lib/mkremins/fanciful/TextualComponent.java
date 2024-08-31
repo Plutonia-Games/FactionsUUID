@@ -118,12 +118,11 @@ public abstract class TextualComponent implements Cloneable {
 			writer.name(getKey()).value(getValue());
 		}
 
-		@SuppressWarnings("serial")
 		public Map<String, Object> serialize() {
-			return new HashMap<>() {{
-                put("key", getKey());
-                put("value", getValue());
-            }};
+		    Map<String, Object> map = new HashMap<>();
+		    map.put("key", getKey());
+		    map.put("value", getValue());
+		    return map;
 		}
 
 		public static ArbitraryTextTypeComponent deserialize(Map<String, Object> map) {
@@ -185,14 +184,13 @@ public abstract class TextualComponent implements Cloneable {
 			writer.endObject();
 		}
 
-		@SuppressWarnings("serial")
 		public Map<String, Object> serialize() {
-			return new java.util.HashMap<>() {{
-                put("key", getKey());
-                for (Map.Entry<String, String> valEntry : getValue().entrySet()) {
-                    put("value." + valEntry.getKey(), valEntry.getValue());
-                }
-            }};
+		    Map<String, Object> map = new HashMap<>();
+		    map.put("key", getKey());
+		    for (Map.Entry<String, String> valEntry : getValue().entrySet()) {
+		        map.put("value." + valEntry.getKey(), valEntry.getValue());
+		    }
+		    return map;
 		}
 
 		public static ComplexTextTypeComponent deserialize(Map<String, Object> map) {

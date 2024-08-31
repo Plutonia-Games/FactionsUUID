@@ -173,7 +173,7 @@ public class BufferedObjective {
                             }
                         }
                     }
-                    if (sCURvy < 3 && !builderrr.isEmpty()) {
+                    if (sCURvy < 3 && builderrr.length() > 0) {
                         arrImAPirate[sCURvy] = builderrr.toString();
                     }
                     if (arrImAPirate[2] == null) {

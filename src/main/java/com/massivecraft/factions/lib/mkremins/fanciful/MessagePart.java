@@ -63,11 +63,18 @@ final class MessagePart implements JsonRepresentedObject, ConfigurationSerializa
 				continue;
 			}
 
-			String styleName = switch (style) {
-                case MAGIC -> "obfuscated";
-                case UNDERLINE -> "underlined";
-                default -> style.name().toLowerCase();
-            };
+			String styleName;
+			switch (style) {
+			    case MAGIC:
+			        styleName = "obfuscated";
+			        break;
+			    case UNDERLINE:
+			        styleName = "underlined";
+			        break;
+			    default:
+			        styleName = style.name().toLowerCase();
+			        break;
+			}
 
             builder.put(style, styleName);
 		}

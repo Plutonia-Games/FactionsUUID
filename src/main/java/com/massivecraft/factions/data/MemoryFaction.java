@@ -372,7 +372,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         }
 
         PermissionsConfig permConf = FactionsPlugin.getInstance().getConfigManager().getPermissionsConfig();
-        List<PermSelector> priority = permConf.getOverridePermissionsOrder().stream().filter(s -> s.test(selectable, this)).toList();
+        List<PermSelector> priority = permConf.getOverridePermissionsOrder().stream().filter(s -> s.test(selectable, this)).collect(Collectors.toList());
         for (PermSelector selector : priority) {
             Boolean bool = permConf.getOverridePermissions().get(selector).get(permissibleAction.getName());
             if (bool != null) {
@@ -1042,7 +1042,7 @@ public abstract class MemoryFaction implements Faction, EconomyParticipator {
         StringBuilder ownerList = new StringBuilder();
 
         for (String anOwnerData : ownerData) {
-            if (!ownerList.isEmpty()) {
+            if (ownerList.length() > 0) {
                 ownerList.append(", ");
             }
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(anOwnerData));

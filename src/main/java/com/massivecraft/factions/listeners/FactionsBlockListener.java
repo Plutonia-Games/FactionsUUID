@@ -35,6 +35,7 @@ import org.bukkit.material.Directional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FactionsBlockListener extends AbstractListener {
 
@@ -258,7 +259,7 @@ public class FactionsBlockListener extends AbstractListener {
                 .map(Block::getLocation)
                 .map(FLocation::new)
                 .distinct()
-                .toList();
+                .collect(Collectors.toList());
 
         boolean disableOverall = FactionsPlugin.getInstance().conf().factions().other().isDisablePistonsInTerritory();
         for (FLocation location : locations) {

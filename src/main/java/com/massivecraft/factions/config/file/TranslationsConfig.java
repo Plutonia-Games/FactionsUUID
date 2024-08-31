@@ -45,14 +45,14 @@ public class TranslationsConfig {
                 private String actionNotFound = "<red>No action available with that name</red>";
                 private String actionAllowDenyOptions = "<red>Unrecognized choice. What about </red><allow> <red>or</red> <deny><red>?</red>";
 
-                private List<String> actionAllowAlias = new ArrayList<>() {
+                private List<String> actionAllowAlias = new ArrayList<String>() {
                     {
                         this.add("allow");
                         this.add("true");
                     }
                 };
 
-                private List<String> actionDenyAlias = new ArrayList<>() {
+                private List<String> actionDenyAlias = new ArrayList<String>() {
                     {
                         this.add("deny");
                         this.add("false");
@@ -165,12 +165,12 @@ public class TranslationsConfig {
             }
 
             public static class SubCmdMove extends AbsCommand {
-                private List<String> aliasUp = new ArrayList<>() {
+                private List<String> aliasUp = new ArrayList<String>() {
                     {
                         this.add("up");
                     }
                 };
-                private List<String> aliasDown = new ArrayList<>() {
+                private List<String> aliasDown = new ArrayList<String>() {
                     {
                         this.add("down");
                     }

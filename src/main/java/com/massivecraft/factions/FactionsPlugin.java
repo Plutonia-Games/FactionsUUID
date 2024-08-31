@@ -227,7 +227,7 @@ public class FactionsPlugin extends JavaPlugin implements FactionsAPI {
             }.getType());
 
             if (data == null || data.isEmpty()) {
-                Files.writeString(conversionCompleteFile, "Do not delete unless you want to waste time at startup!");
+            	Files.write(conversionCompleteFile, "Do not delete unless you want to waste time at startup!".getBytes(StandardCharsets.UTF_8));
                 return;
             }
 
@@ -279,7 +279,7 @@ public class FactionsPlugin extends JavaPlugin implements FactionsAPI {
                 this.getLogger().info("Migrated " + count + " files!");
             }
 
-            Files.writeString(conversionCompleteFile, "Do not delete unless you want to waste time at startup!");
+            Files.write(conversionCompleteFile, "Do not delete unless you want to waste time at startup!".getBytes(StandardCharsets.UTF_8));
 
             this.getLogger().info("  We did it! Yay!");
         } catch (ClassNotFoundException | NoClassDefFoundError e) {

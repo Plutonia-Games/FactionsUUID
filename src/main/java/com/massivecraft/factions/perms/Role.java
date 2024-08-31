@@ -44,26 +44,26 @@ public enum Role implements Permissible {
     }
 
     public static Role getByValue(int value) {
-        return switch (value) {
-            case 0 -> RECRUIT;
-            case 1 -> NORMAL;
-            case 2 -> MODERATOR;
-            case 3 -> COLEADER;
-            case 4 -> ADMIN;
-            default -> null;
-        };
+        switch (value) {
+            case 0: return RECRUIT;
+            case 1: return NORMAL;
+            case 2: return MODERATOR;
+            case 3: return COLEADER;
+            case 4: return ADMIN;
+            default: return null;
+        }
 
     }
 
     public static Role fromString(String check) {
-        return switch (check.toLowerCase(Locale.ROOT)) {
-            case "admin" -> ADMIN;
-            case "coleader", "coowner" -> COLEADER;
-            case "mod", "moderator" -> MODERATOR;
-            case "normal", "member" -> NORMAL;
-            case "recruit", "rec" -> RECRUIT;
-            default -> null;
-        };
+        switch (check.toLowerCase(Locale.ROOT)) {
+            case "admin": return ADMIN;
+            case "coleader": case "coowner": return COLEADER;
+            case "mod": case "moderator": return MODERATOR;
+            case "normal": case "member": return NORMAL;
+            case "recruit": case "rec": return RECRUIT;
+            default: return null;
+        }
 
     }
 

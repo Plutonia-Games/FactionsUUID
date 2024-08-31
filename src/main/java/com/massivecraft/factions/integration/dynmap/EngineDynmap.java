@@ -773,7 +773,7 @@ public class EngineDynmap {
     public static String getHtmlPlayerString(Collection<FPlayer> playersOfficersList) {
         StringBuilder ret = new StringBuilder();
         for (FPlayer fplayer : playersOfficersList) {
-            if (!ret.isEmpty()) {
+            if (ret.length() > 0) {
                 ret.append(", ");
             }
             ret.append(getHtmlPlayerName(fplayer));

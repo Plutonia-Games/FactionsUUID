@@ -152,7 +152,7 @@ public class CmdTicketInfo extends FCommand {
         new BukkitRunnable() {
             private String getFile(Path file) {
                 try {
-                    return Files.readString(file);
+                	return new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
                 } catch (IOException e) {
                     return ExceptionUtils.getFullStackTrace(e);
                 }
