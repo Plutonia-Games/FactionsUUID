@@ -1,10 +1,13 @@
 package com.massivecraft.factions.perms.selector;
 
+import java.util.Objects;
+
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.FactionsPlugin;
 import com.massivecraft.factions.perms.Selectable;
+
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -64,4 +67,23 @@ public class FactionSelector extends AbstractSelector {
                 MiniMessage.miniMessage().deserialize(FactionsPlugin.getInstance().tl().permissions().selectors().faction().getDisbandedValue(), Placeholder.unparsed("lastknown", this.lastKnown)) :
                 LegacyComponentSerializer.legacySection().deserialize(faction.getTag(context));
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash("factionselector", this.id);
+    }
+
+    @Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+
+		FactionSelector fs = (FactionSelector) obj;
+		return this.id == fs.id;
+	}
 }
