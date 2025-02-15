@@ -1,28 +1,26 @@
 package com.massivecraft.factions.integration;
 
-import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.bukkit.BukkitUtil;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import java.util.function.Supplier;
+import java.util.logging.Logger;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-import java.util.logging.Logger;
+import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.Vector;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.bukkit.BukkitUtil;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 /**
  * Worldguard Region Checking.
@@ -142,19 +140,16 @@ public class Worldguard6 implements IWorldguard {
         BlockVector maxChunk = new BlockVector(maxChunkX, worldHeight, maxChunkZ);
 
         RegionManager regionManager = wg.getRegionManager(world);
-        ProtectedCuboidRegion region = new ProtectedCuboidRegion("wgfactionoverlapcheck", minChunk, maxChunk);
-        Map<String, ProtectedRegion> allregions = regionManager.getRegions();
-        Collection<ProtectedRegion> allregionslist = new ArrayList<>(allregions.values());
-        List<ProtectedRegion> overlaps = region.getIntersectingRegions(allregionslist);
-        boolean foundregions = overlaps != null && !overlaps.isEmpty();
+        ProtectedRegion region = new ProtectedCuboidRegion("wgregionflagcheckforfactions", minChunk, maxChunk);
+        ApplicableRegionSet set = regionManager.getApplicableRegions(region);
 
         if (isChecking.get()) {
-            return foundregions;
+            return set.size() > 0;
         }
-        if (FLAG_CLAIM == null || !foundregions) {
+        if (FLAG_CLAIM == null) {
             return false;
         }
-        for (ProtectedRegion reg : overlaps) {
+        for (ProtectedRegion reg : set.getRegions()) {
             StateFlag.State s = reg.getFlag(FLAG_CLAIM);
             if (s == StateFlag.State.DENY) {
                 return true;
