@@ -1,19 +1,5 @@
 package com.massivecraft.factions.config.file;
 
-import com.massivecraft.factions.FactionsPlugin;
-import com.massivecraft.factions.config.annotation.Comment;
-import com.massivecraft.factions.config.annotation.WipeOnReload;
-import com.massivecraft.factions.perms.Relation;
-import com.massivecraft.factions.perms.Role;
-import com.massivecraft.factions.util.MiscUtil;
-import com.massivecraft.factions.util.material.MaterialDb;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,6 +8,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+
+import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.FactionsPlugin;
+import com.massivecraft.factions.config.annotation.Comment;
+import com.massivecraft.factions.config.annotation.WipeOnReload;
+import com.massivecraft.factions.perms.Relation;
+import com.massivecraft.factions.perms.Role;
+import com.massivecraft.factions.util.MiscUtil;
+import com.massivecraft.factions.util.material.MaterialDb;
+
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 
 @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal", "InnerClassMayBeStatic", "BooleanMethodIsAlwaysInverted", "MismatchedQueryAndUpdateOfCollection"})
 public class MainConfig {
@@ -1346,6 +1349,15 @@ public class MainConfig {
                     }
                 };
 
+                @Comment("Should wilderness count if NEUTRAL is listed as a relation?")
+                private boolean includeWildernessInNeutral = false;
+
+                @Comment("Should safezone count if NEUTRAL is listed as a relation?")
+                private boolean includeSafezoneInNeutral = false;
+
+                @Comment("Should warzone count if NEUTRAL is listed as a relation?")
+                private boolean includeWarzoneInNeutral = false;
+
                 @WipeOnReload
                 private transient Set<Relation> relations = null;
 
@@ -1370,6 +1382,28 @@ public class MainConfig {
                     return relationsToTeleportOut;
                 }
 
+                public boolean isRelationToTeleportOut(Relation relation, Faction faction) {
+                    if (!faction.isNormal()) {
+                        if ((relation != Relation.NEUTRAL) ||
+                                (faction.isWilderness() && !includeWildernessInNeutral) ||
+                                (faction.isSafeZone() && !includeSafezoneInNeutral) ||
+                                (faction.isWarZone() && !includeWarzoneInNeutral)) {
+                            return false;
+                        }
+                    }
+                    if (relations == null) {
+                        relations = new HashSet<>();
+                        for (String rel : relationsToTeleportOut) {
+                            Relation r = Relation.fromString(rel);
+                            if (r != null) {
+                                relations.add(r);
+                            }
+                        }
+                    }
+                    return relations.contains(relation);
+                }
+
+                @Deprecated
                 public boolean isRelationToTeleportOut(Relation relation) {
                     if (relations == null) {
                         relations = new HashSet<>();
