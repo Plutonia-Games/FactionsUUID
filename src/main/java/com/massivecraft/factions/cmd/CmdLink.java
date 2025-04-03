@@ -23,7 +23,7 @@ public class CmdLink extends FCommand {
     @Override
     public void perform(CommandContext context) {
         if (context.args.isEmpty()) {
-            context.msg(TL.COMMAND_LINK_SHOW, this.plugin.conf().colors().relations().getMember(), context.faction.getLink());
+            context.msg(TL.COMMAND_LINK_SHOW, context.faction.getLink());
             return;
         }
 
