@@ -1,15 +1,18 @@
 package com.massivecraft.factions.integration;
 
-import com.earth2me.essentials.IEssentials;
-import com.earth2me.essentials.Teleport;
-import com.earth2me.essentials.Trade;
-import com.massivecraft.factions.FactionsPlugin;
-import com.massivecraft.factions.iface.EconomyParticipator;
-import com.massivecraft.factions.listeners.EssentialsListener;
+import java.util.concurrent.CompletableFuture;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.Plugin;
+
+import com.earth2me.essentials.AsyncTeleport;
+import com.earth2me.essentials.IEssentials;
+import com.massivecraft.factions.FactionsPlugin;
+import com.massivecraft.factions.iface.EconomyParticipator;
+import com.massivecraft.factions.listeners.EssentialsListener;
 
 public class Essentials {
 
@@ -35,13 +38,14 @@ public class Essentials {
             return false;
         }
 
-        Teleport teleport = essentials.getUser(player).getTeleport();
-        Trade trade = new Trade(FactionsPlugin.getInstance().conf().economy().getCostHome(), essentials);
-        try {
-            teleport.teleport(loc, trade);
-        } catch (Exception e) {
-            player.sendMessage(ChatColor.RED + e.getMessage());
-        }
+        AsyncTeleport teleport = essentials.getUser(player).getAsyncTeleport();
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        future.exceptionally(e -> {
+        	player.sendMessage(ChatColor.RED + e.getMessage());
+            return false;
+        });
+        teleport.teleport(loc, null, PlayerTeleportEvent.TeleportCause.PLUGIN, future);
+
         return true;
     }
 
