@@ -13,7 +13,8 @@ import org.bukkit.entity.Player;
 public class CmdVault extends FCommand {
 
     public CmdVault() {
-        this.aliases.add("vault");
+    	this.aliases.add("vault");
+    	this.aliases.add("chest");
 
         this.optionalArgs.put("number", "number");
 
